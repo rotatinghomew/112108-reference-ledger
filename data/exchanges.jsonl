@@ -1,0 +1,29 @@
+{"step": 1, "kind": "control", "body": {"pool": "R", "month": "2026-09", "unit": "scan", "amount": 14000, "capacity": 140, "rev": 1}}
+{"step": 1, "kind": "control", "body": {"pool": "S", "month": "2026-09", "unit": "scan", "amount": 8000, "capacity": 80, "rev": 1}}
+{"step": 1, "kind": "cost", "body": {"id": "bill-r1", "pool": "R", "month": "2026-09", "amount": 10000}}
+{"step": 1, "kind": "cost", "body": {"id": "bill-r2", "pool": "R", "month": "2026-09", "amount": 4000}}
+{"step": 1, "kind": "cost", "body": {"id": "bill-s1", "pool": "S", "month": "2026-09", "amount": 8000}}
+{"step": 1, "kind": "direct", "body": {"id": "bill-p1", "project": "P", "month": "2026-09", "amount": 1000}}
+{"step": 1, "kind": "grant", "body": {"id": "g1", "project": "P", "pool": "R", "month": "2026-09", "cap": 80}}
+{"step": 1, "kind": "grant", "body": {"id": "g2", "project": "Q", "pool": "S", "month": "2026-09", "cap": 70}}
+{"step": 1, "kind": "grant", "body": {"id": "g3", "project": "Z", "pool": "S", "month": "2026-09", "cap": 25}}
+{"step": 1, "kind": "use", "body": {"id": "r0", "grant": "g1", "parent": null, "units": 60, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 1, "kind": "use", "body": {"id": "s0", "grant": "g2", "parent": null, "units": 60, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 1, "kind": "loan", "body": {"id": "l1", "borrow": "S", "lend": "R", "project": "Q", "use": "s0", "units": 25, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 2, "kind": "issue", "body": {"id": "september-a", "month": "2026-09"}}
+{"step": 2, "kind": "ack", "body": {"id": "ack-l1", "issue": "september-a", "loan": "l1", "rev": 1, "units": 25, "receiver": "S"}}
+{"step": 3, "kind": "offset", "body": {"id": "off-1", "target": "bill-r2", "amount": -2000}}
+{"step": 3, "kind": "control", "body": {"pool": "R", "month": "2026-09", "unit": "scan", "amount": 12000, "capacity": 110, "rev": 2}}
+{"step": 3, "kind": "use", "body": {"id": "r0", "grant": "g1", "parent": null, "units": 48, "unit": "scan", "rev": 2, "confirmed": true}}
+{"step": 3, "kind": "use", "body": {"id": "rchild1", "grant": "g1", "parent": "r0", "units": 33, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 3, "kind": "use", "body": {"id": "rchild2", "grant": "g1", "parent": "r0", "units": 23, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 3, "kind": "loan", "body": {"id": "l2", "borrow": "R", "lend": "S", "project": "P", "use": "r0", "units": 10, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 3, "kind": "loan", "body": {"id": "l1", "borrow": "S", "lend": "R", "project": "Q", "use": "s0", "units": 15, "unit": "scan", "rev": 2, "confirmed": true}}
+{"step": 4, "kind": "loan", "body": {"id": "l2", "borrow": "R", "lend": "S", "project": "P", "use": "r0", "units": 10, "unit": "scan", "rev": 2, "confirmed": false}}
+{"step": 4, "kind": "use", "body": {"id": "rchild2", "grant": "g1", "parent": "r0", "units": 12, "unit": "scan", "rev": 2, "confirmed": true}}
+{"step": 4, "kind": "use", "body": {"id": "z0", "grant": "g3", "parent": null, "units": 20, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 4, "kind": "loan", "body": {"id": "l3", "borrow": "S", "lend": "R", "project": "Z", "use": "z0", "units": 20, "unit": "scan", "rev": 1, "confirmed": true}}
+{"step": 4, "kind": "control", "body": {"pool": "R", "month": "2026-09", "unit": "scan", "amount": 12000, "capacity": 85, "rev": 3}}
+{"step": 4, "kind": "issue", "body": {"id": "september-b", "month": "2026-09"}}
+{"step": 5, "kind": "release", "body": {"id": "return-1", "ack": "ack-l1", "released_units": 10, "replacement": {"loan": "l1", "rev": 2, "units": 15}, "signed": ["S", "R"]}}
+{"step": 5, "kind": "issue", "body": {"id": "september-c", "month": "2026-09"}}
